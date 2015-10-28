@@ -17,4 +17,6 @@ try-upload:
 	rsync -n -avz --progress --delete repositories/armhf/debian/ packages@packages.groonga.org:public/armhf/debian/
 
 download:
+	mkdir -p repositories/armhf
 	rsync -avz --progress --delete packages@packages.groonga.org:public/armhf/debian/ repositories/armhf/debian/
+
