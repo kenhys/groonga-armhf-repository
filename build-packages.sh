@@ -1,8 +1,9 @@
 #!/bin/bash
 
-#set -x
+set -x
 
 function clone_package() {
+    cd $SCRIPT_DIR
     pkg=$1
     if [ ! -d $pkg ]; then
 	git clone https://github.com/groonga/$pkg
@@ -28,15 +29,18 @@ function get_package_name() {
 }
 
 function get_latest_version() {
+    cd $SCRIPT_DIR
     pkg=$1
     if [ ! -d $pkg ]; then
 	clone_package $pkg
     fi
+    cd $pkg
     VERSION=`git tag | tail -n 1 | sed -e 's/v//'`
     echo $VERSION
 }
 
 function download_archive() {
+    cd $SCRIPT_DIR
     pkg=$1
     mkdir -p $VERSION
     if [ ! -f $VERSION/$pkg-$VERSION.tar.gz ]; then
