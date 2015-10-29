@@ -8,6 +8,9 @@ function clone_package() {
     if [ ! -d $pkg ]; then
 	if [ $pkg = "mroonga" ]; then
 	    git clone https://github.com/mroonga/$pkg
+	    cd mroonga
+	    ./autogen.sh
+	    ./configure --with-mysql-source=$HOME/work/mysql/mysql
 	else
 	    git clone https://github.com/groonga/$pkg
 	fi
