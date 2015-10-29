@@ -37,9 +37,10 @@ function get_latest_version() {
 }
 
 function download_archive() {
+    pkg=$1
     mkdir -p $VERSION
-    if [ ! -f $VERSION/groonga-$VERSION.tar.gz ]; then
-	wget http://packages.groonga.org/source/groonga/groonga-$VERSION.tar.gz -O $VERSION/groonga-$VERSION.tar.gz
+    if [ ! -f $VERSION/$pkg-$VERSION.tar.gz ]; then
+	wget http://packages.groonga.org/source/$pkg/$pkg-$VERSION.tar.gz -O $VERSION/$pkg-$VERSION.tar.gz
     fi
 }
 
