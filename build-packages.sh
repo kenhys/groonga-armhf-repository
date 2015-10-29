@@ -6,7 +6,11 @@ function clone_package() {
     cd $SCRIPT_DIR
     pkg=$1
     if [ ! -d $pkg ]; then
-	git clone https://github.com/groonga/$pkg
+	if [ $pkg = "mroonga" ]; then
+	    git clone https://github.com/mroonga/$pkg
+	else
+	    git clone https://github.com/groonga/$pkg
+	fi
     else
 	(cd $pkg; git pull --rebase)
     fi
