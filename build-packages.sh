@@ -31,7 +31,7 @@ function get_latest_version() {
     name=$1
     pkg=`get_package_name $name`
     if [ ! -d $pkg ]; then
-	clone $pkg
+	clone_package $pkg
     fi
     VERSION=`git tag | tail -n 1 | sed -e 's/v//'`
     echo $VERSION
