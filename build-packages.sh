@@ -11,12 +11,12 @@ function clone_groonga() {
 }
 
 function get_latest_version() {
-    if [ ! -d groonga ]; then
-	clone_groonga
+    name=$1
+    pkg=`get_package_name $name`
+    if [ ! -d $pkg ]; then
+	clone $pkg
     fi
-    cd groonga
     VERSION=`git tag | tail -n 1 | sed -e 's/v//'`
-    cd ..
     echo $VERSION
 }
 
