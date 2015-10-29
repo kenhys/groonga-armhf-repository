@@ -45,25 +45,25 @@ function download_archive() {
 }
 
 function build_package() {
-    cd $VERSION
-    case $1 in
+    cd $SCRIPT_DIR/$VERSION
+    pkg=$1
+    case $pkg in
 	clean)
-	    rm -fr groonga-$VERSION
-	    tar xf groonga-$VERSION.tar.gz
-	    rsync -avz $SCRIPT_DIR/groonga/packages/debian groonga-$VERSION/
+	    rm -fr $pkg-$VERSION
+	    tar xf $pkg-$VERSION.tar.gz
+	    rsync -avz $SCRIPT_DIR/$pkg/packages/debian $pkg-$VERSION/
 	    ;;
 	*)
-	    rsync -avz --delete $SCRIPT_DIR/groonga/packages/debian/ groonga-$VERSION/debian/
+	    rsync -avz --delete $SCRIPT_DIR/$pkg/packages/debian/ $pkg-$VERSION/debian/
 	    ;;
     esac
-    if [ ! -f groonga_$VERSION.orig.tar.gz ]; then
-	cp groonga-$VERSION.tar.gz groonga_$VERSION.orig.tar.gz
+    if [ ! -f $pkg_$VERSION.orig.tar.gz ]; then
+	cp $pkg-$VERSION.tar.gz $pkg_$VERSION.orig.tar.gz
     fi
-    cd groonga-$VERSION
+    cd $pkg-$VERSION
     #debuild -us -uc -nc
     sed -i -e 's/Kouhei Sutou <kou@clear-code.com>/HAYASHI Kentaro <hayashi@clear-code.com>/' debian/changelog
-    debuild -us -uc -j2
-    cd ..
+    #debuild -us -uc -j2
 }
 
 function copy_packages() {
