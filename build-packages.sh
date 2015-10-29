@@ -10,6 +10,22 @@ function clone_groonga() {
     fi
 }
 
+function get_package_name() {
+    name=$1
+    case $name in
+	g|groonga)
+	    pkg=groonga
+	    ;;
+	n|normalizer)
+	    pkg=groonga-normalizer-mysql
+	    ;;
+	m|mroonga)
+	    pkg=mroonga
+	    ;;
+    esac
+    echo $pkg
+}
+
 function get_latest_version() {
     name=$1
     pkg=`get_package_name $name`
