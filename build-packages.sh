@@ -58,20 +58,32 @@ function build_package() {
 	    rsync -avz $SCRIPT_DIR/$pkg/packages/debian $pkg-$VERSION/
 	    ;;
 	*)
+	    if [ ! -d $pkg-$VERSION ]; then
+		tar xf $pkg-$VERSION.tar.gz
+	    fi
 	    rsync -avz --delete $SCRIPT_DIR/$pkg/packages/debian/ $pkg-$VERSION/debian/
 	    ;;
     esac
-    if [ ! -f $pkg_$VERSION.orig.tar.gz ]; then
-	cp $pkg-$VERSION.tar.gz $pkg_$VERSION.orig.tar.gz
+    if [ ! -f ${pkg}_$VERSION.orig.tar.gz ]; then
+	cp $pkg-$VERSION.tar.gz ${pkg}_$VERSION.orig.tar.gz
     fi
     cd $pkg-$VERSION
     #debuild -us -uc -nc
     sed -i -e 's/Kouhei Sutou <kou@clear-code.com>/HAYASHI Kentaro <hayashi@clear-code.com>/' debian/changelog
-    #debuild -us -uc -j2
+    debuild -us -uc -j2
 }
 
 function copy_packages() {
-    POOL=$SCRIPT_DIR/repositories/armhf/debian/pool/unstable/main/g/groonga
+    cd $SCRIPT_DIR/$VERSION
+    pkg=$1
+    case $pkg in
+	groonga|groonga-normalizer-mysql)
+	    POOL=$SCRIPT_DIR/repositories/armhf/debian/pool/unstable/main/g/$pkg
+	    ;;
+	mroonga)
+	    POOL=$SCRIPT_DIR/repositories/armhf/debian/pool/unstable/main/m/$pkg
+	    ;;
+    esac
     mv *.deb $POOL/
     mv *.orig.tar.gz $POOL/
     mv *.dsc $POOL/
@@ -90,8 +102,8 @@ case $1 in
 	echo $PACKAGE
 	echo $VERSION
 	download_archive $PACKAGE
-	#build_package $PACKAGE
-	#copy_packages $PACKAGE
+	build_package $PACKAGE
+	copy_packages $PACKAGE
 	;;
     *)
 	usage
