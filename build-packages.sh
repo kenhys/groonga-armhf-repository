@@ -61,8 +61,16 @@ function copy_packages() {
 FULL_PATH=`realpath $0`
 SCRIPT_DIR=`dirname $FULL_PATH`
 echo $SCRIPT_DIR
-VERSION=`get_latest_version`
-echo $VERSION
-download_archive
-build_package $1
-copy_packages
+
+case $1 in
+    g|groonga|n|normalizer|m|mroonga)
+	VERSION=`get_latest_version`
+	echo $VERSION
+	download_archive $1
+	build_package $1
+	copy_packages $1
+	;;
+    *)
+	usage
+	;;
+esac
