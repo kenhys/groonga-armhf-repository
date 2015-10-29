@@ -2,7 +2,7 @@
 
 #set -x
 
-function clone_groonga() {
+function clone_package() {
     if [ ! -d groonga ]; then
 	git clone https://github.com/groonga/groonga
     else
