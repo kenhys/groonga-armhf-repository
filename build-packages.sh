@@ -28,8 +28,7 @@ function get_package_name() {
 }
 
 function get_latest_version() {
-    name=$1
-    pkg=`get_package_name $name`
+    pkg=$1
     if [ ! -d $pkg ]; then
 	clone_package $pkg
     fi
