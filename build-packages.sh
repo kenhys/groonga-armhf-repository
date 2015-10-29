@@ -81,11 +81,13 @@ echo $SCRIPT_DIR
 
 case $1 in
     g|groonga|n|normalizer|m|mroonga)
-	VERSION=`get_latest_version`
+	PACKAGE=`get_package_name $1`
+	VERSION=`get_latest_version $PACKAGE`
+	echo $PACKAGE
 	echo $VERSION
-	download_archive $1
-	build_package $1
-	copy_packages $1
+	download_archive $PACKAGE
+	#build_package $PACKAGE
+	#copy_packages $PACKAGE
 	;;
     *)
 	usage
