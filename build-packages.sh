@@ -69,6 +69,10 @@ function build_package() {
 		tar xf $pkg-$VERSION.tar.gz
 	    fi
 	    rsync -avz --delete $SCRIPT_DIR/$pkg/packages/debian/ $pkg-$VERSION/debian/
+	    if [ $pkg = "mroonga" ]; then
+		MYSQL_VERSION=`apt-cache show mysql-server | grep Version | awk '{print $2}'`
+		sed -i -e "s/MYSQL_VERSION/${MYSQL_VERSION}/" $pkg-$VERSION/debian/control
+	    fi
 	    ;;
     esac
     if [ ! -f ${pkg}_$VERSION.orig.tar.gz ]; then
