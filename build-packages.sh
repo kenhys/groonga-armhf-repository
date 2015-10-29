@@ -3,10 +3,11 @@
 #set -x
 
 function clone_package() {
-    if [ ! -d groonga ]; then
-	git clone https://github.com/groonga/groonga
+    pkg=$1
+    if [ ! -d $pkg ]; then
+	git clone https://github.com/groonga/$pkg
     else
-	(cd groonga; git pull --rebase)
+	(cd $pkg; git pull --rebase)
     fi
 }
 
