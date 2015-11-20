@@ -80,7 +80,9 @@ function build_package() {
     fi
     cd $pkg-$VERSION
     #debuild -us -uc -nc
-    sed -i -e 's/Kouhei Sutou <kou@clear-code.com>/HAYASHI Kentaro <hayashi@clear-code.com>/' debian/changelog
+    USER_NAME=`git config user.name`
+    USER_EMAIL=`git config user.email`
+    sed -i -e "s/Kouhei Sutou <kou@clear-code.com>/$USER_NAME <$USER_EMAIL>/" debian/changelog
     debuild -us -uc -j2
 }
 
