@@ -29,29 +29,11 @@ update_repository()
     component=$3
 
     rm -rf dists/${code_name}
-    mkdir -p dists/${code_name}/${component}/binary-i386/
-    mkdir -p dists/${code_name}/${component}/binary-amd64/
     mkdir -p dists/${code_name}/${component}/binary-armhf/
     mkdir -p dists/${code_name}/${component}/source/
 
     cat <<EOF > dists/.htaccess
 Options +Indexes
-EOF
-
-    cat <<EOF > dists/${code_name}/${component}/binary-i386/Release
-Archive: ${code_name}
-Component: ${component}
-Origin: The ${PROJECT_NAME} project
-Label: The ${PROJECT_NAME} project
-Architecture: i386
-EOF
-
-    cat <<EOF > dists/${code_name}/${component}/binary-amd64/Release
-Archive: ${code_name}
-Component: ${component}
-Origin: The ${PROJECT_NAME} project
-Label: The ${PROJECT_NAME} project
-Architecture: amd64
 EOF
 
     cat <<EOF > dists/${code_name}/${component}/binary-armhf/Release
@@ -80,18 +62,6 @@ Default::Packages::Compress ". gzip bzip2";
 Default::Sources::Compress ". gzip bzip2";
 Default::Contents::Compress "gzip bzip2";
 
-BinDirectory "dists/${code_name}/${component}/binary-i386" {
-  Packages "dists/${code_name}/${component}/binary-i386/Packages";
-  Contents "dists/${code_name}/Contents-i386";
-  SrcPackages "dists/${code_name}/${component}/source/Sources";
-};
-
-BinDirectory "dists/${code_name}/${component}/binary-amd64" {
-  Packages "dists/${code_name}/${component}/binary-amd64/Packages";
-  Contents "dists/${code_name}/Contents-amd64";
-  SrcPackages "dists/${code_name}/${component}/source/Sources";
-};
-
 BinDirectory "dists/${code_name}/${component}/binary-armhf" {
   Packages "dists/${code_name}/${component}/binary-armhf/Packages";
   Contents "dists/${code_name}/Contents-armhf";
@@ -100,7 +70,7 @@ BinDirectory "dists/${code_name}/${component}/binary-armhf" {
 
 Tree "dists/${code_name}" {
   Sections "${component}";
-  Architectures "i386 amd64 armhf source";
+  Architectures "armhf source";
 };
 EOF
     apt-ftparchive generate generate-${code_name}.conf
@@ -111,7 +81,7 @@ EOF
     cat <<EOF > release-${code_name}.conf
 APT::FTPArchive::Release::Origin "The ${PROJECT_NAME} project";
 APT::FTPArchive::Release::Label "The ${PROJECT_NAME} project";
-APT::FTPArchive::Release::Architectures "i386 amd64 armhf";
+APT::FTPArchive::Release::Architectures "armhf";
 APT::FTPArchive::Release::Codename "${code_name}";
 APT::FTPArchive::Release::Suite "${code_name}";
 APT::FTPArchive::Release::Components "${component}";
