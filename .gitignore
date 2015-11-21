@@ -1,4 +1,4 @@
 repositories
 [0-9]*
-groonga
 groonga-normalizer-mysql
+*roonga
